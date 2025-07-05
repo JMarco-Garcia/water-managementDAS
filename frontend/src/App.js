@@ -22,6 +22,12 @@ import {
   AlertCircle,
   Clock,
   CheckSquare,
+  Send,
+  Ticket,
+  Calendar,
+  Phone,
+  Mail,
+  MapPinIcon,
 } from "lucide-react";
 
 // Context para manejo de estado global
@@ -204,10 +210,10 @@ const Login = ({ onLogin }) => {
 
   if (connectionStatus === "checking") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 flex items-center justify-center">
-        <div className="bg-white rounded-xl shadow-2xl p-8 text-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
           <Droplets className="h-12 w-12 text-blue-600 mx-auto mb-4 animate-pulse" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">
             Conectando al servidor...
           </h2>
           <p className="text-gray-600">Verificando conexión con el backend</p>
@@ -219,21 +225,15 @@ const Login = ({ onLogin }) => {
   if (connectionStatus === "error") {
     return (
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 flex items-center justify-center">
-        <div className="bg-white rounded-xl shadow-2xl p-8 text-center max-w-md">
+        <div className="bg-white rounded-2xl shadow-xl p-8 text-center max-w-md">
           <AlertCircle className="h-12 w-12 text-red-600 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">
             Error de Conexión
           </h2>
           <p className="text-gray-600 mb-4">{error}</p>
-          <div className="text-left bg-gray-50 p-3 rounded mb-4 text-sm">
-            <p className="font-semibold">Verifica:</p>
-            <p>• Backend en http://localhost:8000</p>
-            <p>• Base de datos MySQL conectada</p>
-            <p>• Sin errores en el servidor</p>
-          </div>
           <button
             onClick={() => window.location.reload()}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
             Reintentar
           </button>
@@ -243,36 +243,36 @@ const Login = ({ onLogin }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <Droplets className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-          <h1 className="text-3xl font-bold text-gray-900">
-            {formData.isRegistering ? "Registro" : "Iniciar Sesión"}
+          <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Droplets className="h-8 w-8 text-blue-600" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {formData.isRegistering ? "Crear Cuenta" : "Iniciar Sesión"}
           </h1>
-          <p className="text-gray-600 mt-2">
-            AquaGest - Sistema de Gestión de Agua
-          </p>
+          <p className="text-gray-600 mt-2">AquaGest - Gestión de Agua</p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+          <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
             {success}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {formData.isRegistering && (
             <>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Nombre *
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Nombre completo
                 </label>
                 <input
                   type="text"
@@ -281,26 +281,12 @@ const Login = ({ onLogin }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, nombre: e.target.value })
                   }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Tu nombre"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  placeholder="Tu nombre completo"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Apellidos
-                </label>
-                <input
-                  type="text"
-                  value={formData.apellidos}
-                  onChange={(e) =>
-                    setFormData({ ...formData, apellidos: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Tus apellidos"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Teléfono
                 </label>
                 <input
@@ -309,36 +295,32 @@ const Login = ({ onLogin }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, telefono: e.target.value })
                   }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Tu teléfono"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  placeholder="Tu número de teléfono"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Tipo de Usuario *
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Tipo de cuenta
                 </label>
                 <select
                   value={formData.tipo_usuario}
                   onChange={(e) =>
                     setFormData({ ...formData, tipo_usuario: e.target.value })
                   }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                 >
-                  <option value="USUARIO">👤 Usuario - Solicitar agua</option>
-                  <option value="ASESOR">
-                    👨‍💼 Asesor - Gestionar solicitudes
-                  </option>
-                  <option value="RESIDENTE">
-                    🏛️ Residente - Administrar sistema
-                  </option>
+                  <option value="USUARIO">Usuario - Solicitar agua</option>
+                  <option value="ASESOR">Asesor - Gestionar solicitudes</option>
+                  <option value="RESIDENTE">Residente - Administrar</option>
                 </select>
               </div>
             </>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email *
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Correo electrónico
             </label>
             <input
               type="email"
@@ -347,14 +329,14 @@ const Login = ({ onLogin }) => {
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
               placeholder="ejemplo@correo.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Contraseña *
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Contraseña
             </label>
             <input
               type="password"
@@ -363,7 +345,7 @@ const Login = ({ onLogin }) => {
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
               placeholder="Mínimo 4 caracteres"
             />
           </div>
@@ -371,13 +353,13 @@ const Login = ({ onLogin }) => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
           >
             {loading
-              ? "⏳ Cargando..."
+              ? "Cargando..."
               : formData.isRegistering
-              ? "📝 Registrarse"
-              : "🚪 Iniciar Sesión"}
+              ? "Crear cuenta"
+              : "Iniciar sesión"}
           </button>
         </form>
 
@@ -391,30 +373,13 @@ const Login = ({ onLogin }) => {
               setError("");
               setSuccess("");
             }}
-            className="text-blue-600 hover:text-blue-700 text-sm"
+            className="text-blue-600 hover:text-blue-700 text-sm font-medium"
           >
             {formData.isRegistering
               ? "¿Ya tienes cuenta? Inicia sesión"
               : "¿No tienes cuenta? Regístrate"}
           </button>
         </div>
-
-        {!formData.isRegistering && (
-          <div className="mt-4 p-3 bg-gray-50 rounded-lg text-xs text-gray-600">
-            <p className="font-semibold mb-2">💡 Usuarios de prueba:</p>
-            <div className="space-y-1">
-              <p>
-                <strong>Usuario:</strong> usuario@test.com / 123456
-              </p>
-              <p>
-                <strong>Asesor:</strong> asesor@test.com / 123456
-              </p>
-              <p>
-                <strong>Admin:</strong> admin@test.com / 123456
-              </p>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -424,72 +389,56 @@ const Login = ({ onLogin }) => {
 const Navbar = ({ user, onLogout, currentView, setCurrentView }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const menuItems = [
-    {
-      id: "dashboard",
-      label: "Dashboard",
-      icon: BarChart3,
-      roles: ["Solicitante", "Asesor", "Administrador"],
-    },
-    {
-      id: "nueva-solicitud",
-      label: "Nueva Solicitud",
-      icon: Plus,
-      roles: ["Solicitante"],
-    },
-    {
-      id: "mis-solicitudes",
-      label: "Mis Solicitudes",
-      icon: FileText,
-      roles: ["Solicitante"],
-    },
-    {
-      id: "gestionar-solicitudes",
-      label: "Gestionar Solicitudes",
-      icon: CheckCircle,
-      roles: ["Asesor", "Administrador"],
-    },
-    {
-      id: "reportes",
-      label: "Reportes",
-      icon: BarChart3,
-      roles: ["Asesor", "Administrador"],
-    },
-    {
-      id: "puntos",
-      label: "Puntos de Suministro",
-      icon: MapPin,
-      roles: ["Asesor", "Administrador"],
-    },
-  ];
+  const getMenuItems = () => {
+    switch (user?.tipo_usuario) {
+      case "USUARIO":
+        return [
+          { id: "solicitar-agua", label: "Solicitar Agua", icon: Droplets },
+          { id: "mis-solicitudes", label: "Mis Solicitudes", icon: FileText },
+        ];
+      case "ASESOR":
+        return [
+          { id: "gestionar-solicitudes", label: "Solicitudes", icon: CheckCircle },
+          { id: "generar-tickets", label: "Tickets", icon: Ticket },
+        ];
+      case "RESIDENTE":
+        return [
+          { id: "dashboard", label: "Dashboard", icon: BarChart3 },
+          { id: "reportes", label: "Reportes", icon: FileText },
+          { id: "administrar", label: "Administrar", icon: Users },
+        ];
+      default:
+        return [];
+    }
+  };
 
-  const filteredMenuItems = menuItems.filter((item) =>
-    item.roles.includes(user?.tipo_usuario)
-  );
+  const menuItems = getMenuItems();
 
   return (
-    <nav className="bg-white shadow-lg border-b">
+    <nav className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Droplets className="h-8 w-8 text-blue-600" />
-            <span className="ml-2 text-xl font-bold text-gray-900">
+            <div className="bg-blue-100 w-10 h-10 rounded-lg flex items-center justify-center">
+              <Droplets className="h-6 w-6 text-blue-600" />
+            </div>
+            <span className="ml-3 text-xl font-bold text-gray-900">
               AquaGest
             </span>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            {filteredMenuItems.map((item) => {
+          <div className="hidden md:flex items-center space-x-1">
+            {menuItems.map((item) => {
               const Icon = item.icon;
               return (
                 <button
                   key={item.id}
                   onClick={() => setCurrentView(item.id)}
-                  className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     currentView === item.id
-                      ? "bg-blue-100 text-blue-700"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                      ? "bg-blue-50 text-blue-700"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                   }`}
                 >
                   <Icon className="h-4 w-4 mr-2" />
@@ -500,16 +449,15 @@ const Navbar = ({ user, onLogout, currentView, setCurrentView }) => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <div className="text-sm text-gray-600">
-              <span className="font-medium">{user?.nombre}</span>
-              <br />
-              <span className="text-xs">({user?.tipo_usuario})</span>
+            <div className="text-right">
+              <div className="text-sm font-medium text-gray-900">{user?.nombre}</div>
+              <div className="text-xs text-gray-500">{user?.tipo_usuario}</div>
             </div>
             <button
               onClick={onLogout}
-              className="bg-red-600 text-white px-4 py-2 rounded-md text-sm hover:bg-red-700 transition-colors"
+              className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors"
             >
-              Cerrar Sesión
+              Salir
             </button>
           </div>
 
@@ -530,9 +478,9 @@ const Navbar = ({ user, onLogout, currentView, setCurrentView }) => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {filteredMenuItems.map((item) => {
+          <div className="md:hidden border-t border-gray-200">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {menuItems.map((item) => {
                 const Icon = item.icon;
                 return (
                   <button
@@ -541,10 +489,10 @@ const Navbar = ({ user, onLogout, currentView, setCurrentView }) => {
                       setCurrentView(item.id);
                       setIsMenuOpen(false);
                     }}
-                    className={`flex items-center w-full px-3 py-2 rounded-md text-base font-medium ${
+                    className={`flex items-center w-full px-3 py-2 rounded-lg text-base font-medium ${
                       currentView === item.id
-                        ? "bg-blue-100 text-blue-700"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                        ? "bg-blue-50 text-blue-700"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                     }`}
                   >
                     <Icon className="h-5 w-5 mr-3" />
@@ -554,7 +502,7 @@ const Navbar = ({ user, onLogout, currentView, setCurrentView }) => {
               })}
               <button
                 onClick={onLogout}
-                className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="flex items-center w-full px-3 py-2 rounded-lg text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50"
               >
                 Cerrar Sesión
               </button>
@@ -566,257 +514,19 @@ const Navbar = ({ user, onLogout, currentView, setCurrentView }) => {
   );
 };
 
-// ========== DASHBOARD ==========
-const Dashboard = () => {
+// ========== SOLICITAR AGUA (USUARIO) ==========
+const SolicitarAgua = () => {
   const { user } = useContext(AppContext);
-  const [stats, setStats] = useState({
-    total_usuarios: 0,
-    total_solicitudes: 0,
-    total_puntos: 0,
-    total_consultas: 0,
-    puntos_activos: 0,
-    solicitudes_hoy: 0,
-  });
-  const [connectionStatus, setConnectionStatus] = useState("checking");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const statsData = await apiService.getDashboardStats();
-        setStats(statsData);
-        setConnectionStatus("connected");
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setConnectionStatus("error");
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const statCards = [
-    {
-      title: "Total Usuarios",
-      value: stats.total_usuarios,
-      icon: Users,
-      color: "blue",
-    },
-    {
-      title: "Solicitudes",
-      value: stats.total_solicitudes,
-      icon: FileText,
-      color: "green",
-    },
-    {
-      title: "Puntos de Suministro",
-      value: stats.total_puntos,
-      icon: MapPin,
-      color: "purple",
-    },
-    {
-      title: "Puntos Activos",
-      value: stats.puntos_activos,
-      icon: CheckCircle,
-      color: "orange",
-    },
-  ];
-
-  return (
-    <div className="p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          ¡Bienvenido, {user?.nombre}! 👋
-        </h1>
-        <p className="text-gray-600 mt-2">
-          Dashboard del Sistema de Gestión de Agua
-        </p>
-
-        <div className="mt-4">
-          {connectionStatus === "checking" && (
-            <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
-              🔄 Cargando estadísticas...
-            </div>
-          )}
-          {connectionStatus === "connected" && (
-            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-              ✅ Sistema conectado y funcionando correctamente
-            </div>
-          )}
-          {connectionStatus === "error" && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              ❌ Error conectando con el servidor
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {statCards.map((stat, index) => {
-          const Icon = stat.icon;
-          const colorClasses = {
-            blue: "bg-blue-500",
-            green: "bg-green-500",
-            purple: "bg-purple-500",
-            orange: "bg-orange-500",
-          };
-
-          return (
-            <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">
-                    {stat.title}
-                  </p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {stat.value}
-                  </p>
-                </div>
-                <div className={`p-3 rounded-full ${colorClasses[stat.color]}`}>
-                  <Icon className="h-6 w-6 text-white" />
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            Actividad Reciente
-          </h3>
-          <div className="space-y-3">
-            <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-              <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-              <span className="text-sm text-gray-700">
-                Sistema inicializado correctamente
-              </span>
-            </div>
-            <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-              <FileText className="h-5 w-5 text-blue-500 mr-3" />
-              <span className="text-sm text-gray-700">
-                Base de datos conectada
-              </span>
-            </div>
-            <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-              <Users className="h-5 w-5 text-purple-500 mr-3" />
-              <span className="text-sm text-gray-700">
-                Usuario {user?.nombre} conectado
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            Estado del Sistema
-          </h3>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Puntos Activos</span>
-              <span className="text-sm font-medium text-green-600">
-                {stats.total_puntos > 0
-                  ? Math.round(
-                      (stats.puntos_activos / stats.total_puntos) * 100
-                    )
-                  : 0}
-                %
-              </span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="bg-green-600 h-2 rounded-full"
-                style={{
-                  width: `${
-                    stats.total_puntos > 0
-                      ? Math.round(
-                          (stats.puntos_activos / stats.total_puntos) * 100
-                        )
-                      : 0
-                  }%`,
-                }}
-              ></div>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">
-                Disponibilidad del Sistema
-              </span>
-              <span className="text-sm font-medium text-blue-600">95%</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="bg-blue-600 h-2 rounded-full"
-                style={{ width: "95%" }}
-              ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Tu Perfil</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <p className="text-sm text-gray-600">Nombre</p>
-            <p className="font-medium">{user?.nombre}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">Email</p>
-            <p className="font-medium">{user?.email}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">Tipo de Usuario</p>
-            <span
-              className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                user?.tipo_usuario === "Solicitante"
-                  ? "bg-blue-100 text-blue-800"
-                  : user?.tipo_usuario === "Asesor"
-                  ? "bg-green-100 text-green-800"
-                  : "bg-purple-100 text-purple-800"
-              }`}
-            >
-              {user?.tipo_usuario}
-            </span>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600">ID de Usuario</p>
-            <p className="font-medium">#{user?.user_id}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// ========== NUEVA SOLICITUD ==========
-const NuevaSolicitud = () => {
   const [formData, setFormData] = useState({
-    codigo_solicitud: "",
-    tipo_solicitud: "DOMICILIARIA",
-    detalles: [{ id_punto: "", cantidad_solicitada: "" }],
+    cantidad_agua: "",
+    direccion: "",
+    telefono: "",
+    motivo: "",
+    fecha_preferida: "",
+    observaciones: "",
   });
-  const [puntos, setPuntos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const puntosData = await apiService.getPuntosSuministro();
-        setPuntos(puntosData);
-        console.log("✅ Puntos cargados:", puntosData);
-      } catch (error) {
-        console.error("❌ Error cargando puntos:", error);
-      }
-    };
-
-    fetchData();
-
-    // Generar código automático
-    const codigo = `SOL-${Date.now()}`;
-    setFormData((prev) => ({ ...prev, codigo_solicitud: codigo }));
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -824,199 +534,194 @@ const NuevaSolicitud = () => {
     setMessage("");
 
     try {
-      console.log("📤 Enviando solicitud:", formData);
-      const response = await apiService.createSolicitud(formData);
-      console.log("✅ Solicitud creada:", response);
-      setMessage("✅ Solicitud creada exitosamente");
-
-      // Limpiar formulario
-      setFormData({
+      const solicitudData = {
         codigo_solicitud: `SOL-${Date.now()}`,
         tipo_solicitud: "DOMICILIARIA",
-        detalles: [{ id_punto: "", cantidad_solicitada: "" }],
+        detalles: [
+          {
+            id_punto: 1, // Punto por defecto
+            cantidad_solicitada: formData.cantidad_agua,
+          },
+        ],
+      };
+
+      const response = await apiService.createSolicitud(solicitudData);
+      setMessage("✅ Solicitud enviada exitosamente. Te contactaremos pronto.");
+      
+      // Limpiar formulario
+      setFormData({
+        cantidad_agua: "",
+        direccion: "",
+        telefono: "",
+        motivo: "",
+        fecha_preferida: "",
+        observaciones: "",
       });
     } catch (error) {
-      console.error("❌ Error creando solicitud:", error);
       setMessage(`❌ Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
 
-  const addDetalle = () => {
-    setFormData((prev) => ({
-      ...prev,
-      detalles: [...prev.detalles, { id_punto: "", cantidad_solicitada: "" }],
-    }));
-  };
-
-  const removeDetalle = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      detalles: prev.detalles.filter((_, i) => i !== index),
-    }));
-  };
-
-  const updateDetalle = (index, field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      detalles: prev.detalles.map((detalle, i) =>
-        i === index ? { ...detalle, [field]: value } : detalle
-      ),
-    }));
-  };
-
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">
-        Nueva Solicitud de Agua
-      </h1>
+    <div className="max-w-2xl mx-auto p-6">
+      <div className="text-center mb-8">
+        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Droplets className="h-8 w-8 text-blue-600" />
+        </div>
+        <h1 className="text-3xl font-bold text-gray-900">Solicitar Agua</h1>
+        <p className="text-gray-600 mt-2">
+          Completa el formulario para solicitar agua potable
+        </p>
+      </div>
 
       {message && (
         <div
-          className={`mb-4 p-4 rounded-lg ${
+          className={`mb-6 p-4 rounded-lg ${
             message.includes("exitosamente")
-              ? "bg-green-100 text-green-700 border border-green-400"
-              : "bg-red-100 text-red-700 border border-red-400"
+              ? "bg-green-50 text-green-700 border border-green-200"
+              : "bg-red-50 text-red-700 border border-red-200"
           }`}
         >
           {message}
         </div>
       )}
 
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-white rounded-2xl shadow-lg p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Código de Solicitud
+                Cantidad de agua (litros) *
               </label>
               <input
-                type="text"
-                value={formData.codigo_solicitud}
-                readOnly
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                type="number"
+                required
+                value={formData.cantidad_agua}
+                onChange={(e) =>
+                  setFormData({ ...formData, cantidad_agua: e.target.value })
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                placeholder="Ej: 100"
+                min="1"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Tipo de Solicitud
+                Fecha preferida
               </label>
-              <select
-                value={formData.tipo_solicitud}
+              <input
+                type="date"
+                value={formData.fecha_preferida}
                 onChange={(e) =>
-                  setFormData({ ...formData, tipo_solicitud: e.target.value })
+                  setFormData({ ...formData, fecha_preferida: e.target.value })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="DOMICILIARIA">🏠 Domiciliaria</option>
-                <option value="COMERCIAL">🏪 Comercial</option>
-                <option value="INDUSTRIAL">🏭 Industrial</option>
-                <option value="EMERGENCIA">🚨 Emergencia</option>
-              </select>
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                min={new Date().toISOString().split('T')[0]}
+              />
             </div>
           </div>
 
           <div>
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-medium text-gray-900">
-                Detalles de la Solicitud
-              </h3>
-              <button
-                type="button"
-                onClick={addDetalle}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Agregar Punto
-              </button>
-            </div>
-
-            {formData.detalles.map((detalle, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 p-4 border border-gray-200 rounded-lg"
-              >
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Punto de Suministro
-                  </label>
-                  <select
-                    value={detalle.id_punto}
-                    onChange={(e) =>
-                      updateDetalle(index, "id_punto", e.target.value)
-                    }
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="">Seleccionar punto</option>
-                    {puntos.map((punto) => (
-                      <option key={punto.id_punto} value={punto.id_punto}>
-                        {punto.codigo_punto} - {punto.direccion}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cantidad Solicitada (L)
-                  </label>
-                  <input
-                    type="number"
-                    value={detalle.cantidad_solicitada}
-                    onChange={(e) =>
-                      updateDetalle(
-                        index,
-                        "cantidad_solicitada",
-                        e.target.value
-                      )
-                    }
-                    required
-                    min="1"
-                    step="0.01"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Cantidad en litros"
-                  />
-                </div>
-
-                <div className="flex items-end">
-                  {formData.detalles.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeDetalle(index)}
-                      className="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 flex items-center justify-center"
-                    >
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Eliminar
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Dirección completa *
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.direccion}
+              onChange={(e) =>
+                setFormData({ ...formData, direccion: e.target.value })
+              }
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+              placeholder="Calle, número, colonia, ciudad"
+            />
           </div>
 
-          <div className="flex justify-end space-x-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Teléfono de contacto *
+            </label>
+            <input
+              type="tel"
+              required
+              value={formData.telefono}
+              onChange={(e) =>
+                setFormData({ ...formData, telefono: e.target.value })
+              }
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+              placeholder="Tu número de teléfono"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Motivo de la solicitud *
+            </label>
+            <select
+              required
+              value={formData.motivo}
+              onChange={(e) =>
+                setFormData({ ...formData, motivo: e.target.value })
+              }
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+            >
+              <option value="">Selecciona un motivo</option>
+              <option value="uso_domestico">Uso doméstico</option>
+              <option value="emergencia">Emergencia</option>
+              <option value="evento">Evento especial</option>
+              <option value="comercial">Uso comercial</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Observaciones adicionales
+            </label>
+            <textarea
+              value={formData.observaciones}
+              onChange={(e) =>
+                setFormData({ ...formData, observaciones: e.target.value })
+              }
+              rows={3}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+              placeholder="Información adicional que consideres importante..."
+            />
+          </div>
+
+          <div className="flex justify-end space-x-4 pt-6">
             <button
               type="button"
               onClick={() =>
                 setFormData({
-                  codigo_solicitud: `SOL-${Date.now()}`,
-                  tipo_solicitud: "DOMICILIARIA",
-                  detalles: [{ id_punto: "", cantidad_solicitada: "" }],
+                  cantidad_agua: "",
+                  direccion: "",
+                  telefono: "",
+                  motivo: "",
+                  fecha_preferida: "",
+                  observaciones: "",
                 })
               }
-              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+              className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
             >
               Limpiar
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium flex items-center"
             >
-              {loading ? "⏳ Creando..." : "✅ Crear Solicitud"}
+              {loading ? (
+                "Enviando..."
+              ) : (
+                <>
+                  <Send className="h-4 w-4 mr-2" />
+                  Enviar Solicitud
+                </>
+              )}
             </button>
           </div>
         </form>
@@ -1025,7 +730,7 @@ const NuevaSolicitud = () => {
   );
 };
 
-// ========== MIS SOLICITUDES ==========
+// ========== MIS SOLICITUDES (USUARIO) ==========
 const MisSolicitudes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -1035,9 +740,8 @@ const MisSolicitudes = () => {
       try {
         const data = await apiService.getSolicitudes();
         setSolicitudes(data);
-        console.log("✅ Solicitudes cargadas:", data);
       } catch (error) {
-        console.error("❌ Error cargando solicitudes:", error);
+        console.error("Error cargando solicitudes:", error);
       } finally {
         setLoading(false);
       }
@@ -1060,48 +764,62 @@ const MisSolicitudes = () => {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Mis Solicitudes</h1>
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Mis Solicitudes</h1>
+        <p className="text-gray-600 mt-2">
+          Revisa el estado de tus solicitudes de agua
+        </p>
+      </div>
 
       {solicitudes.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
+        <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
           <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
             No tienes solicitudes
           </h3>
-          <p className="text-gray-600">
+          <p className="text-gray-600 mb-6">
             Crea tu primera solicitud de agua para comenzar.
           </p>
+          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+            Solicitar Agua
+          </button>
         </div>
       ) : (
-        <div className="grid gap-6">
+        <div className="space-y-4">
           {solicitudes.map((solicitud) => (
             <div
               key={solicitud.id_solicitud}
-              className="bg-white rounded-lg shadow-md p-6"
+              className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
             >
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {solicitud.codigo_solicitud}
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Tipo: {solicitud.tipo_solicitud}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Fecha:{" "}
-                    {new Date(solicitud.fecha_solicitud).toLocaleDateString(
-                      "es-ES"
-                    )}
-                  </p>
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <div className="flex items-center mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {solicitud.codigo_solicitud}
+                    </h3>
+                    <span className="ml-3 inline-flex px-3 py-1 text-sm font-medium rounded-full bg-yellow-100 text-yellow-800">
+                      Pendiente
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
+                    <div className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      {new Date(solicitud.fecha_solicitud).toLocaleDateString(
+                        "es-ES"
+                      )}
+                    </div>
+                    <div className="flex items-center">
+                      <Droplets className="h-4 w-4 mr-2" />
+                      {solicitud.tipo_solicitud}
+                    </div>
+                    <div className="flex items-center">
+                      <Clock className="h-4 w-4 mr-2" />
+                      En proceso
+                    </div>
+                  </div>
                 </div>
-                <span className="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                  PENDIENTE
-                </span>
-              </div>
-
-              <div className="flex justify-end">
-                <button className="text-blue-600 hover:text-blue-900 flex items-center">
+                <button className="text-blue-600 hover:text-blue-900 flex items-center text-sm">
                   <Eye className="h-4 w-4 mr-1" />
                   Ver detalles
                 </button>
@@ -1114,7 +832,7 @@ const MisSolicitudes = () => {
   );
 };
 
-// ========== GESTIONAR SOLICITUDES ==========
+// ========== GESTIONAR SOLICITUDES (ASESOR) ==========
 const GestionarSolicitudes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -1125,9 +843,8 @@ const GestionarSolicitudes = () => {
       try {
         const data = await apiService.getSolicitudes();
         setSolicitudes(data);
-        console.log("✅ Solicitudes cargadas para gestión:", data);
       } catch (error) {
-        console.error("❌ Error cargando solicitudes:", error);
+        console.error("Error cargando solicitudes:", error);
       } finally {
         setLoading(false);
       }
@@ -1136,9 +853,15 @@ const GestionarSolicitudes = () => {
     fetchSolicitudes();
   }, []);
 
-  const filteredSolicitudes = solicitudes.filter(
-    (sol) => filtro === "TODAS" || sol.estado === filtro
-  );
+  const aprobarSolicitud = (id) => {
+    // Aquí iría la lógica para aprobar
+    console.log("Aprobando solicitud:", id);
+  };
+
+  const rechazarSolicitud = (id) => {
+    // Aquí iría la lógica para rechazar
+    console.log("Rechazando solicitud:", id);
+  };
 
   if (loading) {
     return (
@@ -1154,11 +877,16 @@ const GestionarSolicitudes = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="max-w-6xl mx-auto p-6">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          Gestionar Solicitudes
-        </h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Gestionar Solicitudes
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Revisa y aprueba las solicitudes de agua
+          </p>
+        </div>
 
         <div className="flex items-center space-x-4">
           <Filter className="h-5 w-5 text-gray-400" />
@@ -1175,39 +903,36 @@ const GestionarSolicitudes = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                   Código
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Tipo
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                   Usuario
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                   Fecha
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Tipo
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                   Estado
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                   Acciones
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredSolicitudes.map((solicitud) => (
+              {solicitudes.map((solicitud) => (
                 <tr key={solicitud.id_solicitud} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {solicitud.codigo_solicitud}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {solicitud.tipo_solicitud}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     Usuario #{solicitud.id_usuario_solicitante}
@@ -1217,21 +942,32 @@ const GestionarSolicitudes = () => {
                       "es-ES"
                     )}
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {solicitud.tipo_solicitud}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                      PENDIENTE
+                    <span className="inline-flex px-3 py-1 text-sm font-medium rounded-full bg-yellow-100 text-yellow-800">
+                      Pendiente
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">
-                      <button className="text-green-600 hover:text-green-900">
-                        <CheckCircle className="h-5 w-5" />
+                      <button
+                        onClick={() => aprobarSolicitud(solicitud.id_solicitud)}
+                        className="bg-green-100 text-green-700 p-2 rounded-lg hover:bg-green-200 transition-colors"
+                        title="Aprobar"
+                      >
+                        <CheckCircle className="h-4 w-4" />
                       </button>
-                      <button className="text-red-600 hover:text-red-900">
-                        <XCircle className="h-5 w-5" />
+                      <button
+                        onClick={() => rechazarSolicitud(solicitud.id_solicitud)}
+                        className="bg-red-100 text-red-700 p-2 rounded-lg hover:bg-red-200 transition-colors"
+                        title="Rechazar"
+                      >
+                        <XCircle className="h-4 w-4" />
                       </button>
-                      <button className="text-blue-600 hover:text-blue-900">
-                        <Eye className="h-5 w-5" />
+                      <button className="bg-blue-100 text-blue-700 p-2 rounded-lg hover:bg-blue-200 transition-colors">
+                        <Eye className="h-4 w-4" />
                       </button>
                     </div>
                   </td>
@@ -1245,7 +981,313 @@ const GestionarSolicitudes = () => {
   );
 };
 
-// ========== REPORTES ==========
+// ========== GENERAR TICKETS (ASESOR) ==========
+const GenerarTickets = () => {
+  const [tickets, setTickets] = useState([
+    {
+      id: 1,
+      codigo: "TICKET-001",
+      usuario: "Juan Pérez",
+      cantidad: "100L",
+      fecha_recojo: "2024-01-15",
+      punto_recojo: "Plaza Principal",
+      estado: "Activo",
+    },
+    {
+      id: 2,
+      codigo: "TICKET-002",
+      usuario: "María García",
+      cantidad: "75L",
+      fecha_recojo: "2024-01-16",
+      punto_recojo: "Parque Norte",
+      estado: "Usado",
+    },
+  ]);
+
+  const generarNuevoTicket = () => {
+    const nuevoTicket = {
+      id: tickets.length + 1,
+      codigo: `TICKET-${String(tickets.length + 1).padStart(3, "0")}`,
+      usuario: "Usuario Nuevo",
+      cantidad: "50L",
+      fecha_recojo: new Date().toISOString().split("T")[0],
+      punto_recojo: "Plaza Principal",
+      estado: "Activo",
+    };
+    setTickets([...tickets, nuevoTicket]);
+  };
+
+  return (
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Gestión de Tickets</h1>
+          <p className="text-gray-600 mt-2">
+            Genera tickets para que los usuarios recojan agua
+          </p>
+        </div>
+
+        <button
+          onClick={generarNuevoTicket}
+          className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Generar Ticket
+        </button>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="min-w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Código
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Usuario
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Cantidad
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Fecha Recojo
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Punto
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Estado
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Acciones
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {tickets.map((ticket) => (
+                <tr key={ticket.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {ticket.codigo}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {ticket.usuario}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {ticket.cantidad}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {ticket.fecha_recojo}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {ticket.punto_recojo}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`inline-flex px-3 py-1 text-sm font-medium rounded-full ${
+                        ticket.estado === "Activo"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {ticket.estado}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div className="flex space-x-2">
+                      <button className="bg-blue-100 text-blue-700 p-2 rounded-lg hover:bg-blue-200 transition-colors">
+                        <Eye className="h-4 w-4" />
+                      </button>
+                      <button className="bg-gray-100 text-gray-700 p-2 rounded-lg hover:bg-gray-200 transition-colors">
+                        <Download className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ========== DASHBOARD (RESIDENTE) ==========
+const Dashboard = () => {
+  const { user } = useContext(AppContext);
+  const [stats, setStats] = useState({
+    total_usuarios: 0,
+    total_solicitudes: 0,
+    total_puntos: 0,
+    total_consultas: 0,
+    puntos_activos: 0,
+    solicitudes_hoy: 0,
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const statsData = await apiService.getDashboardStats();
+        setStats(statsData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const statCards = [
+    {
+      title: "Usuarios Registrados",
+      value: stats.total_usuarios,
+      icon: Users,
+      color: "blue",
+    },
+    {
+      title: "Solicitudes Totales",
+      value: stats.total_solicitudes,
+      icon: FileText,
+      color: "green",
+    },
+    {
+      title: "Puntos Activos",
+      value: stats.puntos_activos,
+      icon: MapPin,
+      color: "purple",
+    },
+    {
+      title: "Solicitudes Hoy",
+      value: stats.solicitudes_hoy,
+      icon: Clock,
+      color: "orange",
+    },
+  ];
+
+  return (
+    <div className="max-w-7xl mx-auto p-6">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">
+          Dashboard Administrativo
+        </h1>
+        <p className="text-gray-600 mt-2">
+          Bienvenido, {user?.nombre}. Aquí tienes un resumen del sistema.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {statCards.map((stat, index) => {
+          const Icon = stat.icon;
+          const colorClasses = {
+            blue: "bg-blue-500",
+            green: "bg-green-500",
+            purple: "bg-purple-500",
+            orange: "bg-orange-500",
+          };
+
+          return (
+            <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">
+                    {stat.title}
+                  </p>
+                  <p className="text-3xl font-bold text-gray-900 mt-2">
+                    {stat.value}
+                  </p>
+                </div>
+                <div className={`p-3 rounded-xl ${colorClasses[stat.color]}`}>
+                  <Icon className="h-6 w-6 text-white" />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Actividad Reciente
+          </h3>
+          <div className="space-y-4">
+            <div className="flex items-center p-3 bg-green-50 rounded-lg">
+              <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+              <span className="text-sm text-gray-700">
+                Sistema funcionando correctamente
+              </span>
+            </div>
+            <div className="flex items-center p-3 bg-blue-50 rounded-lg">
+              <FileText className="h-5 w-5 text-blue-500 mr-3" />
+              <span className="text-sm text-gray-700">
+                {stats.solicitudes_hoy} solicitudes procesadas hoy
+              </span>
+            </div>
+            <div className="flex items-center p-3 bg-purple-50 rounded-lg">
+              <Users className="h-5 w-5 text-purple-500 mr-3" />
+              <span className="text-sm text-gray-700">
+                {stats.total_usuarios} usuarios en el sistema
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Estado del Sistema
+          </h3>
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-gray-600">Puntos Activos</span>
+                <span className="text-sm font-medium text-green-600">
+                  {stats.total_puntos > 0
+                    ? Math.round(
+                        (stats.puntos_activos / stats.total_puntos) * 100
+                      )
+                    : 0}
+                  %
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-green-500 h-2 rounded-full transition-all"
+                  style={{
+                    width: `${
+                      stats.total_puntos > 0
+                        ? Math.round(
+                            (stats.puntos_activos / stats.total_puntos) * 100
+                          )
+                        : 0
+                    }%`,
+                  }}
+                ></div>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-gray-600">
+                  Disponibilidad del Sistema
+                </span>
+                <span className="text-sm font-medium text-blue-600">98%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-blue-500 h-2 rounded-full transition-all"
+                  style={{ width: "98%" }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ========== REPORTES (RESIDENTE) ==========
 const Reportes = () => {
   const [reportes, setReportes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -1253,94 +1295,107 @@ const Reportes = () => {
   const generarReporte = async (tipo) => {
     setLoading(true);
     try {
-      console.log("📊 Generando reporte:", tipo);
       const reporte = await apiService.generateReport(tipo);
-      console.log("✅ Reporte generado:", reporte);
       setReportes((prev) => [reporte, ...prev]);
     } catch (error) {
-      console.error("❌ Error generando reporte:", error);
+      console.error("Error generando reporte:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">
-        Reportes del Sistema
-      </h1>
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Reportes del Sistema</h1>
+        <p className="text-gray-600 mt-2">
+          Genera reportes detallados de la actividad del sistema
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <button
           onClick={() => generarReporte("solicitudes")}
           disabled={loading}
-          className="bg-blue-600 text-white p-6 rounded-lg hover:bg-blue-700 disabled:opacity-50 flex flex-col items-center transition-colors"
+          className="bg-white border-2 border-blue-200 hover:border-blue-400 p-6 rounded-xl transition-colors disabled:opacity-50 group"
         >
-          <FileText className="h-8 w-8 mb-2" />
-          <span className="font-semibold">Reporte de Solicitudes</span>
-          <span className="text-sm mt-1">Ver todas las solicitudes</span>
+          <div className="text-center">
+            <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-200 transition-colors">
+              <FileText className="h-6 w-6 text-blue-600" />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-1">Solicitudes</h3>
+            <p className="text-sm text-gray-600">Reporte de todas las solicitudes</p>
+          </div>
         </button>
 
         <button
           onClick={() => generarReporte("usuarios")}
           disabled={loading}
-          className="bg-green-600 text-white p-6 rounded-lg hover:bg-green-700 disabled:opacity-50 flex flex-col items-center transition-colors"
+          className="bg-white border-2 border-green-200 hover:border-green-400 p-6 rounded-xl transition-colors disabled:opacity-50 group"
         >
-          <Users className="h-8 w-8 mb-2" />
-          <span className="font-semibold">Reporte de Usuarios</span>
-          <span className="text-sm mt-1">Listado de usuarios</span>
+          <div className="text-center">
+            <div className="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:bg-green-200 transition-colors">
+              <Users className="h-6 w-6 text-green-600" />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-1">Usuarios</h3>
+            <p className="text-sm text-gray-600">Listado de usuarios registrados</p>
+          </div>
         </button>
 
         <button
           onClick={() => generarReporte("puntos")}
           disabled={loading}
-          className="bg-purple-600 text-white p-6 rounded-lg hover:bg-purple-700 disabled:opacity-50 flex flex-col items-center transition-colors"
+          className="bg-white border-2 border-purple-200 hover:border-purple-400 p-6 rounded-xl transition-colors disabled:opacity-50 group"
         >
-          <MapPin className="h-8 w-8 mb-2" />
-          <span className="font-semibold">Reporte de Puntos</span>
-          <span className="text-sm mt-1">Puntos de suministro</span>
+          <div className="text-center">
+            <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:bg-purple-200 transition-colors">
+              <MapPin className="h-6 w-6 text-purple-600" />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-1">Puntos</h3>
+            <p className="text-sm text-gray-600">Puntos de suministro</p>
+          </div>
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-white rounded-2xl shadow-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Reportes Generados
         </h3>
 
         {loading && (
-          <div className="text-center py-4">
-            <div className="animate-pulse">⏳ Generando reporte...</div>
+          <div className="text-center py-8">
+            <div className="animate-pulse text-gray-600">Generando reporte...</div>
           </div>
         )}
 
         {reportes.length === 0 && !loading ? (
-          <p className="text-gray-500 text-center py-8">
-            No hay reportes generados. Usa los botones de arriba para crear
-            reportes.
-          </p>
+          <div className="text-center py-12">
+            <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-500">
+              No hay reportes generados. Usa los botones de arriba para crear reportes.
+            </p>
+          </div>
         ) : (
           <div className="space-y-4">
             {reportes.map((reporte, index) => (
               <div
                 key={index}
-                className="border border-gray-200 rounded-lg p-4"
+                className="border border-gray-200 rounded-xl p-4 hover:shadow-sm transition-shadow"
               >
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="font-semibold text-gray-900">
                       {reporte.tipo}
                     </h4>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 mt-1">
                       {reporte.descripcion}
                     </p>
-                    <p className="text-sm text-gray-600">
-                      Generado: {reporte.fecha_generacion}
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Registros: {reporte.total_registros}
-                    </p>
+                    <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                      <span>Generado: {reporte.fecha_generacion}</span>
+                      <span>Registros: {reporte.total_registros}</span>
+                    </div>
                   </div>
-                  <button className="text-blue-600 hover:text-blue-900 flex items-center">
+                  <button className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors flex items-center text-sm">
                     <Download className="h-4 w-4 mr-1" />
                     Descargar
                   </button>
@@ -1354,84 +1409,144 @@ const Reportes = () => {
   );
 };
 
-// ========== PUNTOS DE SUMINISTRO ==========
-const PuntosSuministro = () => {
+// ========== ADMINISTRAR (RESIDENTE) ==========
+const Administrar = () => {
+  const [activeTab, setActiveTab] = useState("usuarios");
   const [puntos, setPuntos] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPuntos = async () => {
       try {
         const data = await apiService.getPuntosSuministro();
         setPuntos(data);
-        console.log("✅ Puntos cargados:", data);
       } catch (error) {
-        console.error("❌ Error cargando puntos:", error);
-      } finally {
-        setLoading(false);
+        console.error("Error cargando puntos:", error);
       }
     };
 
     fetchPuntos();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="p-6 text-center">
-        <div className="animate-pulse">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">
-            Puntos de Suministro
-          </h1>
-          <p>Cargando puntos de suministro...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">
-        Puntos de Suministro
-      </h1>
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Administración</h1>
+        <p className="text-gray-600 mt-2">
+          Gestiona usuarios y puntos de suministro
+        </p>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {puntos.map((punto) => (
-          <div
-            key={punto.id_punto}
-            className="bg-white rounded-lg shadow-md p-6"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <div>
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="border-b border-gray-200">
+          <nav className="flex space-x-8 px-6">
+            <button
+              onClick={() => setActiveTab("usuarios")}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === "usuarios"
+                  ? "border-blue-500 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <Users className="h-4 w-4 inline mr-2" />
+              Usuarios
+            </button>
+            <button
+              onClick={() => setActiveTab("puntos")}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === "puntos"
+                  ? "border-blue-500 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <MapPin className="h-4 w-4 inline mr-2" />
+              Puntos de Suministro
+            </button>
+          </nav>
+        </div>
+
+        <div className="p-6">
+          {activeTab === "usuarios" && (
+            <div>
+              <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-semibold text-gray-900">
-                  {punto.codigo_punto}
+                  Gestión de Usuarios
                 </h3>
-                <p className="text-sm text-gray-600">ID: #{punto.id_punto}</p>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Nuevo Usuario
+                </button>
               </div>
-              <span
-                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                  punto.estado === "ACTIVO"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-800"
-                }`}
-              >
-                {punto.estado}
-              </span>
+              <div className="text-center py-12 text-gray-500">
+                <Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                <p>Funcionalidad de gestión de usuarios en desarrollo</p>
+              </div>
             </div>
+          )}
 
-            <div className="space-y-2">
-              <div className="flex items-start">
-                <MapPin className="h-4 w-4 text-gray-400 mr-2 mt-0.5" />
-                <span className="text-sm text-gray-700">{punto.direccion}</span>
+          {activeTab === "puntos" && (
+            <div>
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Puntos de Suministro
+                </h3>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Nuevo Punto
+                </button>
               </div>
-              <div className="flex items-center">
-                <Droplets className="h-4 w-4 text-blue-500 mr-2" />
-                <span className="text-sm text-gray-700">
-                  Capacidad: {parseFloat(punto.capacidad).toLocaleString()} L
-                </span>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {puntos.map((punto) => (
+                  <div
+                    key={punto.id_punto}
+                    className="border border-gray-200 rounded-xl p-6 hover:shadow-sm transition-shadow"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h4 className="font-semibold text-gray-900">
+                          {punto.codigo_punto}
+                        </h4>
+                        <p className="text-sm text-gray-600">ID: #{punto.id_punto}</p>
+                      </div>
+                      <span
+                        className={`inline-flex px-3 py-1 text-xs font-medium rounded-full ${
+                          punto.estado === "ACTIVO"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {punto.estado}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-start">
+                        <MapPinIcon className="h-4 w-4 text-gray-400 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-gray-700">{punto.direccion}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Droplets className="h-4 w-4 text-blue-500 mr-2" />
+                        <span className="text-sm text-gray-700">
+                          Capacidad: {parseFloat(punto.capacidad).toLocaleString()} L
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex space-x-2">
+                      <button className="flex-1 bg-blue-100 text-blue-700 py-2 px-3 rounded-lg hover:bg-blue-200 transition-colors text-sm">
+                        <Edit className="h-4 w-4 inline mr-1" />
+                        Editar
+                      </button>
+                      <button className="bg-red-100 text-red-700 p-2 rounded-lg hover:bg-red-200 transition-colors">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-        ))}
+          )}
+        </div>
       </div>
     </div>
   );
@@ -1440,7 +1555,26 @@ const PuntosSuministro = () => {
 // ========== APP PRINCIPAL ==========
 export default function App() {
   const [user, setUser] = useState(null);
-  const [currentView, setCurrentView] = useState("dashboard");
+  const [currentView, setCurrentView] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      // Establecer vista inicial según el tipo de usuario
+      switch (user.tipo_usuario) {
+        case "USUARIO":
+          setCurrentView("solicitar-agua");
+          break;
+        case "ASESOR":
+          setCurrentView("gestionar-solicitudes");
+          break;
+        case "RESIDENTE":
+          setCurrentView("dashboard");
+          break;
+        default:
+          setCurrentView("dashboard");
+      }
+    }
+  }, [user]);
 
   const handleLogin = (userData) => {
     console.log("✅ Usuario logueado:", userData);
@@ -1450,23 +1584,25 @@ export default function App() {
   const handleLogout = () => {
     console.log("👋 Usuario deslogueado");
     setUser(null);
-    setCurrentView("dashboard");
+    setCurrentView("");
   };
 
   const renderCurrentView = () => {
     switch (currentView) {
-      case "dashboard":
-        return <Dashboard />;
-      case "nueva-solicitud":
-        return <NuevaSolicitud />;
+      case "solicitar-agua":
+        return <SolicitarAgua />;
       case "mis-solicitudes":
         return <MisSolicitudes />;
       case "gestionar-solicitudes":
         return <GestionarSolicitudes />;
+      case "generar-tickets":
+        return <GenerarTickets />;
+      case "dashboard":
+        return <Dashboard />;
       case "reportes":
         return <Reportes />;
-      case "puntos":
-        return <PuntosSuministro />;
+      case "administrar":
+        return <Administrar />;
       default:
         return <Dashboard />;
     }
@@ -1485,7 +1621,7 @@ export default function App() {
           currentView={currentView}
           setCurrentView={setCurrentView}
         />
-        <main className="max-w-7xl mx-auto">{renderCurrentView()}</main>
+        <main>{renderCurrentView()}</main>
       </div>
     </AppContext.Provider>
   );
